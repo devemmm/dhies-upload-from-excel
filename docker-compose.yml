@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  qt-core:
+    image: DHIS2-UPLOAD-FROM-EXCEL:latest
+    container_name: dhis2-upload-from-excel
+    ports:
+      - "8097:3003"
+    restart: always
+    logging:
+      options:
+        max-size: 5m
+    deploy:
+      resources:
+        limits:
+          memory: 2048M
+        reservations:
+          memory: 1024M
