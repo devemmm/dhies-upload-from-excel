@@ -4,7 +4,7 @@ import fs from "fs";
 import axios from "axios";
 import { DHIS2Request, Event, DataElement } from "./DataModule";
 import { DHIS2_DEFINITION } from "./dhis2-uuid.definitions";
-import { convertNames, convertGender, requesttt } from "./helperFunctions";
+import { convertNames, convertGender, cleanData } from "./helperFunctions";
 
 dotenvFlow.config();
 
@@ -52,20 +52,20 @@ for (let row = range.s.r; row <= range.e.r; row++) {
   }
 
   if (data && data.length > 0) {
-    const { fname, mname, lname } = convertNames(data[5]);
+    const { fname, mname, lname } = convertNames(cleanData(data[5]));
 
     const dataValues: Array<DataElement> = [
       {
         dataElement: DHIS2_DEFINITION.EXCEL_ID,
-        value: data[0],
+        value: cleanData(data[0]),
       },
       {
         dataElement: DHIS2_DEFINITION.CH_UINIQUE_ID, // FEFAULT
-        value: data[0],
+        value: cleanData(data[0]),
       },
       {
         dataElement: DHIS2_DEFINITION.PRIMARY_FACILITY,
-        value: "hWBXenUpw50", // DEFAULT PRIMARY CAFILITY ["hWBXenUpw50"]
+        value: "LHNiyIWuLdc", // DEFAULT PRIMARY CAFILITY ["hWBXenUpw50"]
       },
       {
         dataElement: DHIS2_DEFINITION.FIRST_NAME,
@@ -81,27 +81,27 @@ for (let row = range.s.r; row <= range.e.r; row++) {
       },
       {
         dataElement: DHIS2_DEFINITION.GENDER,
-        value: convertGender(data[6]),
+        value: convertGender(cleanData(data[6])),
       },
       {
         dataElement: DHIS2_DEFINITION.EDUCATION_HIGHEST,
-        value: data[8],
+        value: cleanData(data[8]),
       },
       {
         dataElement: DHIS2_DEFINITION.CONTRACT_TYPE,
-        value: data[9],
+        value: cleanData(data[9]),
       },
       {
         dataElement: DHIS2_DEFINITION.NATINAL_ID,
-        value: data[10],
+        value: cleanData(data[10]),
       },
       {
         dataElement: DHIS2_DEFINITION.MOBILE_NUMBER,
-        value: data[12],
+        value: cleanData(data[12]),
       },
       {
         dataElement: DHIS2_DEFINITION.PRIMARY_COMMUNITY_COVERING,
-        value: data[3],
+        value: cleanData(data[3]),
       },
       {
         dataElement: DHIS2_DEFINITION.STATUS, // default value for CHW status ==> active
@@ -126,7 +126,7 @@ request.events.shift();
 
 // -------------SEND REQUEST TO DHIS2 SERVER ----------------------------
 
-console.log(request);
+// console.log(request);
 axios
   .post(process.env.API_URL, request, {
     auth: {
