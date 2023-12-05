@@ -1,6 +1,6 @@
 node_modules
 .env
-.data.xlsx
+data.xlsx
 dist
 success-respose.txt
 error-respose.txt
