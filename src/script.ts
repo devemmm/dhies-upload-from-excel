@@ -37,7 +37,7 @@ const request: DHIS2Request = {
 // --------------DHIES2 REQUEST MAPPING FROM EXCEL------------------
 
 let workbook = xlsx.readFile(process.env.EXCEL_FILE);
-let worksheet = workbook.Sheets[workbook.SheetNames[0]];
+let worksheet = workbook.Sheets[workbook.SheetNames[2]];
 let range = xlsx.utils.decode_range(worksheet["!ref"]);
 
 for (let row = range.s.r; row <= range.e.r; row++) {
@@ -52,7 +52,9 @@ for (let row = range.s.r; row <= range.e.r; row++) {
   }
 
   if (data && data.length > 0) {
-    const { fname, mname, lname } = convertNames(cleanData(data[5]));
+    const { fname, mname, lname } = convertNames(cleanData(data[4]));
+
+    console.log(data[6]);
 
     const dataValues: Array<DataElement> = [
       {
@@ -81,27 +83,27 @@ for (let row = range.s.r; row <= range.e.r; row++) {
       },
       {
         dataElement: DHIS2_DEFINITION.GENDER,
-        value: convertGender(cleanData(data[6])),
+        value: convertGender(cleanData(data[5])),
       },
       {
         dataElement: DHIS2_DEFINITION.EDUCATION_HIGHEST,
-        value: cleanData(data[8]),
+        value: "N/A",
       },
       {
         dataElement: DHIS2_DEFINITION.CONTRACT_TYPE,
-        value: cleanData(data[9]),
+        value: cleanData(data[6]),
       },
       {
         dataElement: DHIS2_DEFINITION.NATINAL_ID,
-        value: cleanData(data[10]),
+        value: "N/A",
       },
       {
         dataElement: DHIS2_DEFINITION.MOBILE_NUMBER,
-        value: cleanData(data[12]),
+        value: cleanData(data[9]),
       },
       {
         dataElement: DHIS2_DEFINITION.PRIMARY_COMMUNITY_COVERING,
-        value: cleanData(data[3]),
+        value: cleanData(data[7]),
       },
       {
         dataElement: DHIS2_DEFINITION.STATUS, // default value for CHW status ==> active
@@ -126,7 +128,6 @@ request.events.shift();
 
 // -------------SEND REQUEST TO DHIS2 SERVER ----------------------------
 
-// console.log(request);
 axios
   .post(process.env.API_URL, request, {
     auth: {
