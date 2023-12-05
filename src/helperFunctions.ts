@@ -41,6 +41,7 @@ export const cleanData = (data: any) => {
   switch (data) {
     case "N/A":
     case "none":
+    case "None":
       return "";
 
     default:
