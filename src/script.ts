@@ -61,7 +61,7 @@ for (let row = range.s.r; row <= range.e.r; row++) {
       },
       {
         dataElement: DHIS2_DEFINITION.CH_UINIQUE_ID, // FEFAULT
-        value: cleanData(data[0]),
+        value: cleanData(data[7]),
       },
       {
         dataElement: DHIS2_DEFINITION.PRIMARY_FACILITY,
@@ -83,18 +83,18 @@ for (let row = range.s.r; row <= range.e.r; row++) {
         dataElement: DHIS2_DEFINITION.GENDER,
         value: convertGender(cleanData(data[5])),
       },
-      // {
-      //   dataElement: DHIS2_DEFINITION.EDUCATION_HIGHEST,
-      //   value: cleanData(data[8]),
-      // },
+      {
+        dataElement: DHIS2_DEFINITION.EDUCATION_HIGHEST,
+        value: "N/A",
+      },
       {
         dataElement: DHIS2_DEFINITION.CONTRACT_TYPE,
-        value: cleanData(data[6]),
+        value: cleanData(data[6]) === "CHA" ? cleanData(data[6]) : "CHA",
       },
-      // {
-      //   dataElement: DHIS2_DEFINITION.NATINAL_ID,
-      //   value: cleanData(data[10]),
-      // },
+      {
+        dataElement: DHIS2_DEFINITION.NATINAL_ID,
+        value: "N/A",
+      },
       {
         dataElement: DHIS2_DEFINITION.MOBILE_NUMBER,
         value: cleanData(data[11]),
@@ -125,6 +125,9 @@ for (let row = range.s.r; row <= range.e.r; row++) {
 request.events.shift();
 
 // -------------SEND REQUEST TO DHIS2 SERVER ----------------------------
+
+const date = new Date().toISOString();
+console.log(date);
 
 axios
   .post(process.env.API_URL, request, {
