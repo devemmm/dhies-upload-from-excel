@@ -54,8 +54,6 @@ for (let row = range.s.r; row <= range.e.r; row++) {
   if (data && data.length > 0) {
     const { fname, mname, lname } = convertNames(cleanData(data[4]));
 
-    console.log(data[6]);
-
     const dataValues: Array<DataElement> = [
       {
         dataElement: DHIS2_DEFINITION.EXCEL_ID,
@@ -64,6 +62,10 @@ for (let row = range.s.r; row <= range.e.r; row++) {
       {
         dataElement: DHIS2_DEFINITION.CH_UINIQUE_ID, // FEFAULT
         value: cleanData(data[0]),
+      },
+      {
+        dataElement: DHIS2_DEFINITION.CHW_COUNTRY,
+        value: cleanData(data[1]),
       },
       {
         dataElement: DHIS2_DEFINITION.PRIMARY_FACILITY,
@@ -125,6 +127,20 @@ for (let row = range.s.r; row <= range.e.r; row++) {
 
 // ---------- remove initialization object from the first index ------------
 request.events.shift();
+
+// function chunkArray(array: any, chunkSize: number) {
+//   const result = [];
+
+//   for (let i = 0; i < array.length; i += chunkSize) {
+//     result.push(array.slice(i, i + chunkSize));
+//   }
+
+//   return result;
+// }
+
+// const chunkedArray = chunkArray(request.events, 500);
+
+// request.events = chunkedArray[0];
 
 // -------------SEND REQUEST TO DHIS2 SERVER ----------------------------
 
