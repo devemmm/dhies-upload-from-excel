@@ -64,6 +64,10 @@ for (let row = range.s.r; row <= range.e.r; row++) {
         value: cleanData(data[0]),
       },
       {
+        dataElement: DHIS2_DEFINITION.CHW_COUNTRY,
+        value: cleanData(data[1]),
+      },
+      {
         dataElement: DHIS2_DEFINITION.PRIMARY_FACILITY,
         value: "LHNiyIWuLdc", // DEFAULT PRIMARY CAFILITY ["hWBXenUpw50"]
       },
@@ -125,6 +129,20 @@ for (let row = range.s.r; row <= range.e.r; row++) {
 request.events.shift();
 
 // -------------SEND REQUEST TO DHIS2 SERVER ----------------------------
+
+// function chunkArray(array: any, chunkSize: number) {
+//   const result = [];
+
+//   for (let i = 0; i < array.length; i += chunkSize) {
+//     result.push(array.slice(i, i + chunkSize));
+//   }
+
+//   return result;
+// }
+
+// const chunkedArray = chunkArray(request.events, 500);
+
+// request.events = chunkedArray[9];
 
 axios
   .post(process.env.API_URL, request, {
