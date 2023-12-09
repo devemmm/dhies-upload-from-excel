@@ -64,6 +64,10 @@ for (let row = range.s.r; row <= range.e.r; row++) {
         value: cleanData(data[0]),
       },
       {
+        dataElement: DHIS2_DEFINITION.CHW_COUNTRY,
+        value: cleanData(data[2]),
+      },
+      {
         dataElement: DHIS2_DEFINITION.PRIMARY_FACILITY,
         value: "LHNiyIWuLdc", // DEFAULT PRIMARY CAFILITY ["hWBXenUpw50"]
       },
@@ -124,6 +128,7 @@ for (let row = range.s.r; row <= range.e.r; row++) {
 // ---------- remove initialization object from the first index ------------
 request.events.shift();
 
+console.log(request.events.length);
 // -------------SEND REQUEST TO DHIS2 SERVER ----------------------------
 
 // console.log(request);
