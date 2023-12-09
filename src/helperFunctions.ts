@@ -1,50 +1,46 @@
-export const convertNames = (names: string) => {
-  let fname = "";
-  let mname = "";
-  let lname = "";
+import xlsx from "xlsx";
+import path from "path";
+import { OriginalItem, ResultObject } from "./types";
 
-  if (names.length > 0) {
-    fname = names.split(" ")[0];
-    mname = names.split(" ")[1];
-    lname = names.split(" ")[2];
-  }
+export const generateExcelFile = async (
+  fileName: string,
+  headers: any,
+  data: any
+) => {
+  /* generate worksheet and workbook */
+  const worksheet = xlsx.utils.json_to_sheet(data);
+  const workbook = xlsx.utils.book_new();
+  xlsx.utils.book_append_sheet(workbook, worksheet, "Dates");
 
-  if (!mname) {
-    mname = "";
-    lname = "";
-  }
+  xlsx.utils.sheet_add_aoa(workbook, [headers], { origin: "A1" });
 
-  if (mname && !lname) {
-    mname = "";
-    lname = names.split(" ")[1];
-  }
+  const filePath = path.join(__dirname, "../public", `${fileName}.xlsx`);
+  xlsx.writeFile(workbook, filePath);
 
-  return { fname, mname, lname };
+  return {
+    status: 200,
+    message: "data exported successfully",
+    record: data.length,
+    data: `${process.env.BASE_URL}/${fileName}.xlsx`,
+  };
 };
 
-export const convertGender = (gender: string) => {
-  switch (gender) {
-    case "M":
-    case "Male":
-    case "MALE":
-      return "Male";
-    case "F":
-    case "Female":
-    case "FEMALE":
-      return "Female";
-    default:
-      break;
-  }
-};
+export function createArrayOfObjects(
+  array: OriginalItem[],
+  groupSize: number
+): ResultObject[] {
+  const result: ResultObject[] = [];
 
-export const cleanData = (data: any) => {
-  switch (data) {
-    case "N/A":
-    case "none":
-    case "None":
-      return "";
+  for (let i = 0; i < array.length; i += groupSize) {
+    const group = array.slice(i, i + groupSize);
+    const newObj: ResultObject = {};
 
-    default:
-      return data;
+    group.forEach(({ dataValue, value }) => {
+      newObj[dataValue] = value;
+    });
+
+    result.push(newObj);
   }
-};
+
+  return result;
+}
