@@ -126,12 +126,24 @@ for (let row = range.s.r; row <= range.e.r; row++) {
 }
 
 // ---------- remove initialization object from the first index ------------
+
+
 request.events.shift();
+
+
+// request.events.forEach(item=>{
+//   item.dataValues.forEach(item2=>{
+//     if(item2.dataElement == "We5TeSA9xLB"){
+//       console.log({dataElement: item2.dataElement, value: item2.value})
+//     }
+//   })
+
+// })
 
 console.log(request.events.length);
 // -------------SEND REQUEST TO DHIS2 SERVER ----------------------------
 
-// console.log(request);
+
 axios
   .post(process.env.API_URL, request, {
     auth: {
