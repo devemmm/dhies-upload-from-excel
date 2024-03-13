@@ -128,19 +128,21 @@ for (let row = range.s.r; row <= range.e.r; row++) {
 // ---------- remove initialization object from the first index ------------
 request.events.shift();
 
-// function chunkArray(array: any, chunkSize: number) {
-//   const result = [];
 
-//   for (let i = 0; i < array.length; i += chunkSize) {
-//     result.push(array.slice(i, i + chunkSize));
-//   }
+function chunkArray(array: any, chunkSize: number) {
+  const result = [];
 
-//   return result;
-// }
+  for (let i = 0; i < array.length; i += chunkSize) {
+    result.push(array.slice(i, i + chunkSize));
+  }
 
-// const chunkedArray = chunkArray(request.events, 500);
+  return result;
+}
 
-// request.events = chunkedArray[0];
+const chunkedArray = chunkArray(request.events, 500);
+
+request.events = chunkedArray[8];
+
 
 // -------------SEND REQUEST TO DHIS2 SERVER ----------------------------
 
