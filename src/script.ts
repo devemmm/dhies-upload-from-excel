@@ -128,6 +128,7 @@ for (let row = range.s.r; row <= range.e.r; row++) {
 // ---------- remove initialization object from the first index ------------
 request.events.shift();
 
+
 function chunkArray(array: any, chunkSize: number) {
   const result = [];
 
@@ -140,7 +141,18 @@ function chunkArray(array: any, chunkSize: number) {
 
 const chunkedArray = chunkArray(request.events, 500);
 
-request.events = chunkedArray[2];
+request.events = chunkedArray[1];
+
+
+
+// request.events.forEach((item)=>{
+  
+//   item.dataValues.forEach(item2=>{
+//     if(item2.value == ""){
+//       console.log({dataElement: item2.dataElement, value: item2.value})
+//     }
+//   })
+// })
 
 // -------------SEND REQUEST TO DHIS2 SERVER ----------------------------
 
